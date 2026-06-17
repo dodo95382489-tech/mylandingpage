@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>슬기로운 자격생활 — 합격 루트를 설계하다</title>
+<meta name="description"  />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F6F3EA;
+    --surface:#FFFFFF;
+    --ink:#1E261F;
+    --ink-soft:#5B6358;
+    --primary:#1F3D2B;
+    --primary-soft:#3C6E47;
+    --line:#DCD6C4;
+    --red:#B23A2E;
+    --blue:#2D5C82;
+    --gold:#B68A2E;
+    --shadow: 0 18px 40px -22px rgba(31,61,43,0.35);
+    --radius: 14px;
+    --serif: "Noto Serif KR", serif;
+    --sans: "Noto Sans KR", sans-serif;
+    --mono: "IBM Plex Mono", monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+  }
+  img,svg{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ margin:0; padding:0; list-style:none; }
+  h1,h2,h3{ font-family: var(--serif); margin:0; line-height:1.25; }
+  button{ font-family: inherit; cursor:pointer; }
+  button:focus-visible, a:focus-visible, input:focus-visible{
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0);
+  }
+
+  /* ---------- layout helpers ---------- */
+  .wrap{ max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+  .section-head{ max-width: 640px; margin-bottom: 36px; }
+  .section-head h2{ font-size: clamp(1.6rem, 2.4vw, 2.1rem); margin-bottom: 10px; }
+  .section-head p{ color: var(--ink-soft); margin:0; }
+  section{ padding: 88px 0; }
+
+  /* ---------- header ---------- */
+  .site-header{
+    position: sticky; top:0; z-index: 40;
+    background: rgba(246,243,234,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 1140px; margin:0 auto; padding: 16px 24px;
+    display:flex; align-items:center; justify-content:space-between; gap: 24px;
+  }
+  .brand{
+    font-family: var(--serif); font-weight:900; font-size: 1.15rem;
+    color: var(--primary); letter-spacing: -0.01em;
+  }
+  .main-nav{ display:flex; gap: 28px; }
+  .main-nav a{
+    font-size: 0.92rem; font-weight:500; color: var(--ink-soft);
+    border-bottom: 2px solid transparent; padding-bottom: 2px;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .main-nav a:hover{ color: var(--primary); border-color: var(--gold); }
+  .header-actions{ display:flex; gap:10px; }
+  .ghost-btn{
+    border: 1px solid var(--primary); background: transparent;
+    color: var(--primary); font-size: 0.85rem; font-weight:500;
+    padding: 8px 14px; border-radius: 999px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .ghost-btn:hover{ background: var(--primary); color:#fff; }
+  #bookmarkCount{ font-family: var(--mono); font-weight:600; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background: var(--primary);
+    color: #F4F1E6;
+    padding: 96px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(circle at 85% 20%, rgba(255,255,255,0.06), transparent 55%);
+    pointer-events:none;
+  }
+  .hero-inner{
+    max-width: 1140px; margin:0 auto; padding: 0 24px;
+    display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items:center;
+  }
+  .eyebrow{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em;
+    color: #C9CDB8; text-transform: uppercase; margin: 0 0 18px;
+  }
+  .hero h1{
+    font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+    font-weight: 900; color:#fff; margin-bottom: 18px;
+  }
+  .hero-sub{ color:#D7DACB; max-width: 460px; margin-bottom: 32px; }
+  .search-form{ display:flex; gap:10px; max-width: 480px; margin-bottom: 18px; }
+  .search-form input{
+    flex:1; padding: 14px 18px; border-radius: var(--radius); border:none;
+    background: #F4F1E6; color: var(--ink); font-size: 0.95rem;
+    box-shadow: var(--shadow);
+  }
+  .search-form button{
+    padding: 14px 22px; border-radius: var(--radius); border:none;
+    background: var(--gold); color: var(--primary); font-weight:700;
+    font-size: 0.95rem; transition: transform .15s ease;
+  }
+  .search-form button:hover{ transform: translateY(-1px); }
+  .quick-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    border: 1px solid rgba(244,241,230,0.35); background: transparent;
+    color: #EDE9D8; font-size: 0.8rem; padding: 7px 14px; border-radius: 999px;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .chip:hover{ background: rgba(244,241,230,0.12); border-color: var(--gold); }
+
+  .hero-seal{ display:flex; justify-content:center; }
+  .seal-ring{
+    position: relative; width: 240px; height: 240px;
+    animation: stampIn .7s cubic-bezier(.2,.9,.3,1.1) both;
+  }
+  .seal-ring svg{ width:100%; height:100%; }
+  .seal-rotate{ animation: spin 70s linear infinite; transform-origin: 110px 110px; }
+  .seal-outer{ fill:none; stroke:#E7C76B; stroke-width:1.4; }
+  .seal-inner{ fill:none; stroke:#E7C76B; stroke-width:1; opacity:.6; }
+  .seal-text{ font-family: var(--mono); font-size: 9.5px; letter-spacing: 2px; fill:#E7C76B; }
+  .seal-core{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:2px;
+  }
+  .seal-word{ font-family: var(--serif); font-weight:900; font-size: 2.6rem; color:#E76C53; }
+  .seal-sub{ font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; color:#E7C76B; }
+
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  @keyframes stampIn{
+    0%{ transform: scale(1.5) rotate(-8deg); opacity:0; }
+    60%{ transform: scale(0.95) rotate(2deg); opacity:1; }
+    100%{ transform: scale(1) rotate(0deg); opacity:1; }
+  }
+
+  /* ---------- schedule ---------- */
+  .schedule{ background: var(--bg); }
+  .schedule-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items:start; }
+  .calendar-card, .exam-list-card{
+    background: var(--surface); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; box-shadow: var(--shadow);
+  }
+  .calendar-toolbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 16px; }
+  .calendar-toolbar button{
+    width:32px; height:32px; border-radius:50%; border:1px solid var(--line);
+    background:#fff; color:var(--primary); font-size:1rem;
+  }
+  .calendar-toolbar button:hover{ background: var(--bg); }
+  .calendar-toolbar h3{ font-size: 1.05rem; }
+  .calendar-weekdays{
+    display:grid; grid-template-columns: repeat(7,1fr); margin-bottom: 6px;
+    font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); text-align:center;
+  }
+  .calendar-grid{ display:grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+  .cal-cell{
+    aspect-ratio: 1; border-radius: 8px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; font-family: var(--mono); font-size: 0.78rem;
+    color: var(--ink); border: 1px solid transparent; position:relative;
+  }
+  .cal-cell.empty{ visibility:hidden; }
+  .cal-cell.today{ border-color: var(--primary-soft); font-weight:700; }
+  .cal-cell.exam-day{ background: #FBEDE9; color: var(--red); font-weight:700; }
+  .cal-cell.exam-day::after{
+    content:""; position:absolute; bottom:5px; width:5px; height:5px; border-radius:50%; background: var(--red);
+  }
+  .exam-list-card h3{ font-size: 1.05rem; margin-bottom: 16px; }
+  .exam-list li{
+    display:flex; align-items:center; gap: 14px; padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .exam-list li:last-child{ border-bottom:none; }
+  .dday-badge{
+    font-family: var(--mono); font-weight:700; font-size: 0.82rem;
+    color:#fff; background: var(--red); padding: 5px 10px; border-radius: 8px; min-width: 56px; text-align:center;
+  }
+  .exam-meta{ flex:1; min-width:0; }
+  .exam-meta .exam-name{ font-weight:700; font-size: 0.92rem; display:block; }
+  .exam-meta .exam-date{ font-family: var(--mono); font-size: 0.76rem; color: var(--ink-soft); }
+  .field-tag{
+    font-size: 0.7rem; font-family: var(--mono); padding: 3px 8px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--ink-soft); white-space:nowrap;
+  }
+
+  /* ---------- filter bars ---------- */
+  .filter-bar{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom: 28px; }
+  .filter-btn{
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    font-size: 0.85rem; padding: 8px 16px; border-radius: 999px; transition: all .15s ease;
+  }
+  .filter-btn:hover{ border-color: var(--primary-soft); color: var(--primary); }
+  .filter-btn.active{ background: var(--primary); border-color: var(--primary); color:#fff; }
+
+  /* ---------- recommend cards ---------- */
+  .cert-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .cert-card{
+    background: var(--surface); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; box-shadow: var(--shadow); position:relative;
+    opacity:0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease;
+  }
+  .cert-card.is-visible{ opacity:1; transform:none; }
+  .cert-card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .cert-card h3{ font-size: 1.05rem; margin-bottom: 4px; }
+  .cert-field{ font-family: var(--mono); font-size: 0.74rem; color: var(--blue); }
+  .badge-stamp{
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em;
+    color: var(--gold); border: 1px solid var(--gold); border-radius: 999px;
+    padding: 3px 9px; transform: rotate(-4deg); white-space:nowrap;
+  }
+  .cert-stats{ display:grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 16px 0; }
+  .stat{ font-size: 0.8rem; }
+  .stat span{ display:block; color: var(--ink-soft); font-size: 0.7rem; margin-bottom: 2px; }
+  .stat strong{ font-family: var(--mono); }
+  .cert-usage{ font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 18px; }
+  .cert-actions{ display:flex; gap:10px; }
+  .save-btn{
+    flex:1; border: 1px solid var(--primary); background: transparent; color: var(--primary);
+    font-size: 0.84rem; font-weight:600; padding: 9px 0; border-radius: 999px;
+  }
+  .save-btn.saved{ background: var(--primary); color:#fff; }
+  .empty-state{
+    grid-column: 1 / -1; text-align:center; padding: 40px 0; color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  /* ---------- community ---------- */
+  .community-head-row{ display:flex; align-items:flex-end; justify-content:space-between; gap: 20px; flex-wrap:wrap; }
+  .primary-btn{
+    border:none; background: var(--primary); color:#fff; font-weight:600;
+    font-size: 0.88rem; padding: 11px 20px; border-radius: 999px; white-space:nowrap;
+  }
+  .primary-btn:disabled{ background: #B9BDAE; cursor:not-allowed; }
+  .review-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+  .review-card{
+    background: var(--surface); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; box-shadow: var(--shadow); display:flex; flex-direction:column;
+    opacity:0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease;
+  }
+  .review-card.is-visible{ opacity:1; transform:none; }
+  .review-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom: 12px; }
+  .review-tags span{
+    font-family: var(--mono); font-size: 0.68rem; color: var(--primary-soft);
+    border: 1px solid var(--line); padding: 3px 8px; border-radius: 999px;
+  }
+  .review-card h3{ font-size: 0.98rem; margin-bottom: 8px; }
+  .review-comment{
+    font-size: 0.85rem; color: var(--ink-soft); border-left: 2px solid var(--gold);
+    padding-left: 12px; margin: 0 0 16px;
+  }
+  .review-foot{
+    margin-top:auto; display:flex; align-items:center; justify-content:space-between;
+    font-size: 0.78rem; color: var(--ink-soft);
+  }
+  .review-author{ font-weight:600; color: var(--ink); }
+  .like-btn{
+    border: 1px solid var(--line); background: transparent; border-radius: 999px;
+    padding: 5px 12px; font-size: 0.78rem; color: var(--ink-soft);
+  }
+  .like-btn.liked{ border-color: var(--red); color: var(--red); }
+
+  /* ---------- footer ---------- */
+  .site-footer{
+    background: var(--primary); color: #C9CDB8; text-align:center; padding: 36px 0; font-size: 0.85rem;
+  }
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background: rgba(20,28,21,0.55); display:flex;
+    align-items:center; justify-content:center; padding: 20px; z-index: 100;
+  }
+  .modal-overlay[hidden]{ display:none; }
+  .modal-box{
+    background: var(--surface); border-radius: var(--radius); padding: 28px;
+    max-width: 420px; width:100%; box-shadow: var(--shadow); max-height: 86vh; overflow-y:auto;
+  }
+  .modal-box h3{ font-size: 1.1rem; margin-bottom: 14px; }
+  .modal-close{
+    border:none; background:transparent; color: var(--ink-soft); float:right;
+    font-size: 1.2rem; line-height:1; cursor:pointer;
+  }
+  .field-row{ margin-bottom: 14px; }
+  .field-row label{ display:block; font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 6px; }
+  .field-row input, .field-row select, .field-row textarea{
+    width:100%; padding: 10px 12px; border:1px solid var(--line); border-radius: 8px;
+    font-family: inherit; font-size: 0.9rem; background:#fff; color:var(--ink);
+  }
+  .tag-check-row{ display:flex; flex-wrap:wrap; gap: 10px; }
+  .tag-check-row label{
+    display:flex; align-items:center; gap:6px; font-size: 0.82rem; color: var(--ink);
+    border: 1px solid var(--line); padding: 6px 12px; border-radius: 999px;
+  }
+  .modal-submit{
+    width:100%; border:none; background: var(--primary); color:#fff; font-weight:600;
+    padding: 12px 0; border-radius: 999px; margin-top: 6px;
+  }
+  .bookmark-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding: 10px 0; border-bottom: 1px solid var(--line); font-size:0.88rem;
+  }
+  .bookmark-row:last-child{ border-bottom:none; }
+  .remove-btn{ border:none; background:none; color: var(--red); font-size:0.8rem; cursor:pointer; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px){
+    .hero-inner{ grid-template-columns: 1fr; }
+    .hero-seal{ order:-1; }
+    .seal-ring{ width: 170px; height:170px; }
+    .schedule-grid{ grid-template-columns: 1fr; }
+    .cert-grid, .review-grid{ grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 620px){
+    section{ padding: 64px 0; }
+    .main-nav{ display:none; }
+    .cert-grid, .review-grid{ grid-template-columns: 1fr; }
+    .cert-stats{ grid-template-columns: repeat(2,1fr); }
+    .search-form{ flex-direction:column; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .seal-ring, .seal-rotate{ animation: none; }
+    .cert-card, .review-card{ transition: none; opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top">슬기로운 자격생활</a>
+    <nav class="main-nav" aria-label="주요 메뉴">
+      <a href="#schedule">시험 일정</a>
+      <a href="#recommend">추천 자격증</a>
+      <a href="#community">합격 후기</a>
+    </nav>
+    <div class="header-actions">
+      <button id="bookmarkBtn" class="ghost-btn" type="button">내 리스트 <span id="bookmarkCount">0</span></button>
+      <button id="loginBtn" class="ghost-btn" type="button">로그인</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">자격증 정보 X 의사결정 플랫폼</p>
+        <h1>당신의 합격 루트를<br />설계해드립니다</h1>
+        <p class="hero-sub">무슨 자격증을 언제, 왜 따야 하는지 결정을 도와드립니다.</p>
+        <form class="search-form" id="searchForm" role="search">
+          <label for="searchInput" class="visually-hidden">자격증 검색</label>
+          <input type="text" id="searchInput" placeholder="예) 정보처리기사, SQLD, 한국사능력검정시험" autocomplete="off" />
+          <button type="submit">검색</button>
+        </form>
+        <div class="quick-tags">
+          <button class="chip" type="button" data-quick="정보처리기사">정보처리기사</button>
+          <button class="chip" type="button" data-quick="SQLD">SQLD</button>
+          <button class="chip" type="button" data-quick="한국사">한국사능력검정시험</button>
+          <button class="chip" type="button" data-quick="ADsP">ADsP</button>
+        </div>
+      </div>
+      <div class="hero-seal" aria-hidden="true">
+        <div class="seal-ring">
+          <svg viewBox="0 0 220 220" class="seal-rotate">
+            <defs>
+              <path id="sealCircle" d="M 110,110 m -82,0 a 82,82 0 1,1 164,0 a 82,82 0 1,1 -164,0" />
+            </defs>
+            <circle cx="110" cy="110" r="95" class="seal-outer" />
+            <circle cx="110" cy="110" r="60" class="seal-inner" />
+            <text class="seal-text">
+              <textPath href="#sealCircle" startOffset="0%">합격을 디자인하다 · PASS DESIGN · 합격을 디자인하다 · PASS DESIGN ·</textPath>
+            </text>
+          </svg>
+          <div class="seal-core">
+            <span class="seal-word">合格</span>
+            <span class="seal-sub">PASS DESIGN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="schedule" id="schedule">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>이번 달, 무엇을 준비해야 할까요</h2>
+        <p>시험 일정을 한눈에 보고 D-day로 공부 우선순위를 정하세요.</p>
+      </div>
+      <div class="schedule-grid">
+        <div class="calendar-card">
+          <div class="calendar-toolbar">
+            <button id="prevMonth" type="button" aria-label="이전 달">‹</button>
+            <h3 id="calendarTitle"></h3>
+            <button id="nextMonth" type="button" aria-label="다음 달">›</button>
+          </div>
+          <div class="calendar-weekdays">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+        <div class="exam-list-card">
+          <h3>다가오는 시험 TOP 5</h3>
+          <ul class="exam-list" id="examList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="recommend" id="recommend">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>지금 시작하기 좋은 자격증</h2>
+        <p>분야와 검색으로 내 수준과 목표에 맞는 자격증을 좁혀보세요.</p>
+      </div>
+      <div class="filter-bar" id="fieldFilter">
+        <button class="filter-btn active" type="button" data-field="전체">전체</button>
+        <button class="filter-btn" type="button" data-field="IT/데이터">IT/데이터</button>
+        <button class="filter-btn" type="button" data-field="사무/행정">사무/행정</button>
+        <button class="filter-btn" type="button" data-field="공무원/교직">공무원/교직</button>
+        <button class="filter-btn" type="button" data-field="마케팅/조사">마케팅/조사</button>
+      </div>
+      <div class="cert-grid" id="certGrid"></div>
+    </div>
+  </section>
+
+  <section class="community" id="community">
+    <div class="wrap">
+      <div class="community-head-row">
+        <div class="section-head" style="margin-bottom:0;">
+          <h2>합격은 멀지 않습니다</h2>
+          <p>실제 합격자들의 경험에서 전략과 동기를 얻어가세요.</p>
+        </div>
+        <button id="writeReviewBtn" class="primary-btn" type="button" disabled>로그인 후 후기 작성</button>
+      </div>
+      <div class="filter-bar" id="tagFilter" style="margin-top:28px;">
+        <button class="filter-btn active" type="button" data-tag="전체">전체</button>
+        <button class="filter-btn" type="button" data-tag="노베이스">노베이스</button>
+        <button class="filter-btn" type="button" data-tag="단기합격">단기합격</button>
+        <button class="filter-btn" type="button" data-tag="독학">독학</button>
+        <button class="filter-btn" type="button" data-tag="고득점">고득점</button>
+      </div>
+      <div class="review-grid" id="reviewGrid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>슬기로운 자격생활 — 정보를 나열하지 않고 결정을 돕는 플랫폼</p>
+</footer>
+
+<!-- 로그인 모달 (mock) -->
+<div class="modal-overlay" id="loginModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <button class="modal-close" type="button" data-close="loginModal" aria-label="닫기">×</button>
+    <h3 id="loginTitle">간단 로그인 (mock)</h3>
+    <form id="loginForm">
+      <div class="field-row">
+        <label for="nickname">닉네임</label>
+        <input type="text" id="nickname" placeholder="예) 코딩기린" required />
+      </div>
+      <button class="modal-submit" type="submit">로그인하기</button>
+    </form>
+  </div>
+</div>
+
+<!-- 후기 작성 모달 -->
+<div class="modal-overlay" id="reviewModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="reviewTitle">
+    <button class="modal-close" type="button" data-close="reviewModal" aria-label="닫기">×</button>
+    <h3 id="reviewTitle">합격 후기 작성</h3>
+    <form id="reviewForm">
+      <div class="field-row">
+        <label for="reviewCert">자격증</label>
+        <select id="reviewCert" required></select>
+      </div>
+      <div class="field-row">
+        <label for="reviewTitleInput">제목</label>
+        <input type="text" id="reviewTitleInput" placeholder="예) 두 달 만에 합격한 후기" required />
+      </div>
+      <div class="field-row">
+        <label for="reviewPeriod">합격까지 걸린 기간</label>
+        <input type="text" id="reviewPeriod" placeholder="예) 8주" required />
+      </div>
+      <div class="field-row">
+        <label for="reviewComment">한줄 후기</label>
+        <textarea id="reviewComment" rows="2" placeholder="가장 도움이 됐던 한 가지를 적어주세요" required></textarea>
+      </div>
+      <div class="field-row">
+        <label>태그</label>
+        <div class="tag-check-row">
+          <label><input type="checkbox" name="reviewTag" value="노베이스" />노베이스</label>
+          <label><input type="checkbox" name="reviewTag" value="단기합격" />단기합격</label>
+          <label><input type="checkbox" name="reviewTag" value="독학" />독학</label>
+          <label><input type="checkbox" name="reviewTag" value="고득점" />고득점</label>
+        </div>
+      </div>
+      <button class="modal-submit" type="submit">후기 등록하기</button>
+    </form>
+  </div>
+</div>
+
+<!-- 내 리스트(찜) 모달 -->
+<div class="modal-overlay" id="bookmarkModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="bookmarkTitle">
+    <button class="modal-close" type="button" data-close="bookmarkModal" aria-label="닫기">×</button>
+    <h3 id="bookmarkTitle">내 학습 리스트</h3>
+    <div id="bookmarkList"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+(function () {
+  /* =====================================================
+     데이터
+  ===================================================== */
+  var certData = [
+    { id: "infoproc", name: "정보처리기사", field: "IT/데이터", difficulty: "중", duration: "8주", passRate: "52%", usage: "IT・소프트웨어 개발 직무", badge: "인기" },
+    { id: "sqld", name: "SQLD (SQL개발자)", field: "IT/데이터", difficulty: "하~중", duration: "3주", passRate: "68%", usage: "데이터・백엔드 직무" },
+    { id: "adsp", name: "ADsP (데이터분석 준전문가)", field: "IT/데이터", difficulty: "중", duration: "4주", passRate: "45%", usage: "데이터 분석 입문" },
+    { id: "computil", name: "컴퓨터활용능력 1급", field: "사무/행정", difficulty: "중", duration: "6주", passRate: "38%", usage: "사무・행정 전반", badge: "추천" },
+    { id: "kohist", name: "한국사능력검정시험 1급", field: "공무원/교직", difficulty: "중~상", duration: "5주", passRate: "41%", usage: "공무원・교직 가산점" },
+    { id: "socsurvey", name: "사회조사분석사 2급", field: "마케팅/조사", difficulty: "중", duration: "7주", passRate: "49%", usage: "조사・마케팅 직무" }
+  ];
+
+  var examData = [
+    { name: "정보처리기사 실기", date: "2026-07-04", field: "IT/데이터" },
+    { name: "SQLD", date: "2026-07-12", field: "IT/데이터" },
+    { name: "컴퓨터활용능력 1급 필기", date: "2026-06-28", field: "사무/행정" },
+    { name: "한국사능력검정시험 52회", date: "2026-08-09", field: "공무원/교직" },
+    { name: "ADsP", date: "2026-07-19", field: "IT/데이터" },
+    { name: "사회조사분석사 2급 필기", date: "2026-06-21", field: "마케팅/조사" }
+  ];
+
+  var reviewData = [
+    { id: 1, title: "비전공자도 두 달 만에 정보처리기사 합격했어요", author: "코딩기린", period: "8주", comment: "기출 3회독이 합격의 전부였습니다.", likes: 128, liked: false, tags: ["노베이스", "단기합격"] },
+    { id: 2, title: "독학으로 ADsP 한 번에 붙은 후기", author: "데이터별", period: "4주", comment: "이론보다 기출 분석이 9할이었어요.", likes: 94, liked: false, tags: ["독학", "단기합격"] },
+    { id: 3, title: "한국사 1급, 흐름 잡고 받은 고득점 전략", author: "역사덕후", period: "6주", comment: "암기는 흐름을 이해한 다음이 빨랐습니다.", likes: 76, liked: false, tags: ["고득점"] },
+    { id: 4, title: "직장인이 컴활 1급 준비하며 남긴 기록", author: "직장인K", period: "9주", comment: "평일엔 30분, 주말엔 몰아서 했습니다.", likes: 61, liked: false, tags: ["단기합격"] },
+    { id: 5, title: "SQLD 일주일 벼락치기, 그래도 합격했습니다", author: "급한사람", period: "1주", comment: "기출문제만 세 번 반복해서 풀었어요.", likes: 142, liked: false, tags: ["단기합격", "노베이스"] },
+    { id: 6, title: "사회조사분석사 2급, 차분히 준비한 기록", author: "조사왕", period: "7주", comment: "통계 개념부터 천천히 다졌습니다.", likes: 53, liked: false, tags: ["독학"] }
+  ];
+
+  var state = {
+    field: "전체",
+    query: "",
+    tag: "전체",
+    isLoggedIn: false,
+    nickname: "",
+    calendarDate: new Date(),
+    nextReviewId: reviewData.length + 1
+  };
+
+  /* =====================================================
+     localStorage 헬퍼 (찜 기능)
+  ===================================================== */
+  var STORAGE_KEY = "scs_bookmarked_certs";
+
+  function getBookmarks() {
+    try {
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setBookmarks(list) {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) { /* localStorage 사용 불가 시 무시 */ }
+  }
+
+  function toggleBookmark(id) {
+    var list = getBookmarks();
+    var idx = list.indexOf(id);
+    if (idx === -1) { list.push(id); } else { list.splice(idx, 1); }
+    setBookmarks(list);
+    renderBookmarkCount();
+    renderCertGrid();
+  }
+
+  function renderBookmarkCount() {
+    document.getElementById("bookmarkCount").textContent = String(getBookmarks().length);
+  }
+
+  /* =====================================================
+     날짜 / D-day 유틸
+  ===================================================== */
+  function startOfDay(d) {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  function getDday(dateStr) {
+    var today = startOfDay(new Date());
+    var target = startOfDay(new Date(dateStr + "T00:00:00"));
+    return Math.round((target - today) / 86400000);
+  }
+
+  function formatDday(n) {
+    if (n === 0) return "D-DAY";
+    if (n > 0) return "D-" + n;
+    return "종료";
+  }
+
+  function formatDate(dateStr) {
+    var d = new Date(dateStr + "T00:00:00");
+    var days = ["일", "월", "화", "수", "목", "금", "토"];
+    return (d.getMonth() + 1) + "월 " + d.getDate() + "일 (" + days[d.getDay()] + ")";
+  }
+
+  /* =====================================================
+     캘린더 렌더링
+  ===================================================== */
+  function renderCalendar() {
+    var year = state.calendarDate.getFullYear();
+    var month = state.calendarDate.getMonth();
+    document.getElementById("calendarTitle").textContent = year + "년 " + (month + 1) + "월";
+
+    var firstDay = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var today = startOfDay(new Date());
+
+    var examsByDate = {};
+    examData.forEach(function (ex) { examsByDate[ex.date] = ex; });
+
+    var grid = document.getElementById("calendarGrid");
+    grid.innerHTML = "";
+
+    for (var i = 0; i < firstDay; i++) {
+      var blank = document.createElement("div");
+      blank.className = "cal-cell empty";
+      grid.appendChild(blank);
+    }
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var cellDate = new Date(year, month, day);
+      var iso = year + "-" + String(month + 1).padStart(2, "0") + "-" + String(day).padStart(2, "0");
+      var cell = document.createElement("div");
+      cell.className = "cal-cell";
+      if (startOfDay(cellDate).getTime() === today.getTime()) cell.classList.add("today");
+      if (examsByDate[iso]) {
+        cell.classList.add("exam-day");
+        cell.title = examsByDate[iso].name;
+      }
+      cell.textContent = String(day);
+      grid.appendChild(cell);
+    }
+  }
+
+  document.getElementById("prevMonth").addEventListener("click", function () {
+    state.calendarDate.setMonth(state.calendarDate.getMonth() - 1);
+    renderCalendar();
+  });
+  document.getElementById("nextMonth").addEventListener("click", function () {
+    state.calendarDate.setMonth(state.calendarDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  /* =====================================================
+     다가오는 시험 TOP5
+  ===================================================== */
+  function renderExamList() {
+    var upcoming = examData
+      .map(function (ex) { return Object.assign({}, ex, { dday: getDday(ex.date) }); })
+      .filter(function (ex) { return ex.dday >= 0; })
+      .sort(function (a, b) { return a.dday - b.dday; })
+      .slice(0, 5);
+
+    var list = document.getElementById("examList");
+    list.innerHTML = "";
+
+    if (upcoming.length === 0) {
+      var li = document.createElement("li");
+      li.textContent = "예정된 시험이 없습니다.";
+      list.appendChild(li);
+      return;
+    }
+
+    upcoming.forEach(function (ex) {
+      var li = document.createElement("li");
+      li.innerHTML =
+        '<span class="dday-badge">' + formatDday(ex.dday) + "</span>" +
+        '<span class="exam-meta">' +
+          '<span class="exam-name">' + ex.name + "</span>" +
+          '<span class="exam-date">' + formatDate(ex.date) + "</span>" +
+        "</span>" +
+        '<span class="field-tag">' + ex.field + "</span>";
+      list.appendChild(li);
+    });
+  }
+
+  /* =====================================================
+     추천 자격증 카드
+  ===================================================== */
+  function renderCertGrid() {
+    var bookmarks = getBookmarks();
+    var q = state.query.trim().toLowerCase();
+
+    var filtered = certData.filter(function (c) {
+      var matchField = state.field === "전체" || c.field === state.field;
+      var matchQuery = q === "" ||
+        c.name.toLowerCase().indexOf(q) !== -1 ||
+        c.usage.toLowerCase().indexOf(q) !== -1;
+      return matchField && matchQuery;
+    });
+
+    var grid = document.getElementById("certGrid");
+    grid.innerHTML = "";
+
+    if (filtered.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "조건에 맞는 자격증이 없습니다. 다른 검색어나 분야를 시도해보세요.";
+      grid.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(function (c) {
+      var saved = bookmarks.indexOf(c.id) !== -1;
+      var card = document.createElement("article");
+      card.className = "cert-card";
+      card.innerHTML =
+        '<div class="cert-card-top">' +
+          "<div>" +
+            "<h3>" + c.name + "</h3>" +
+            '<span class="cert-field">' + c.field + "</span>" +
+          "</div>" +
+          (c.badge ? '<span class="badge-stamp">' + c.badge + "</span>" : "") +
+        "</div>" +
+        '<div class="cert-stats">' +
+          '<div class="stat"><span>난이도</span><strong>' + c.difficulty + "</strong></div>" +
+          '<div class="stat"><span>공부 기간</span><strong>' + c.duration + "</strong></div>" +
+          '<div class="stat"><span>합격률</span><strong>' + c.passRate + "</strong></div>" +
+          '<div class="stat"><span>활용 분야</span><strong style="font-family:inherit;">' + c.field + "</strong></div>" +
+        "</div>" +
+        '<p class="cert-usage">' + c.usage + "</p>" +
+        '<div class="cert-actions">' +
+          '<button class="save-btn ' + (saved ? "saved" : "") + '" data-id="' + c.id + '" type="button">' +
+            (saved ? "내 리스트에 담김" : "내 리스트에 담기") +
+          "</button>" +
+        "</div>";
+      grid.appendChild(card);
+    });
+
+    document.querySelectorAll(".save-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () { toggleBookmark(btn.getAttribute("data-id")); });
+    });
+
+    observeRevealTargets(".cert-card");
+  }
+
+  /* =====================================================
+     내 리스트(찜) 모달
+  ===================================================== */
+  function renderBookmarkModal() {
+    var ids = getBookmarks();
+    var box = document.getElementById("bookmarkList");
+    box.innerHTML = "";
+
+    if (ids.length === 0) {
+      box.innerHTML = '<p style="color:var(--ink-soft); font-size:0.88rem;">아직 담은 자격증이 없습니다. 추천 자격증에서 담아보세요.</p>';
+      return;
+    }
+
+    ids.forEach(function (id) {
+      var cert = certData.find(function (c) { return c.id === id; });
+      if (!cert) return;
+      var row = document.createElement("div");
+      row.className = "bookmark-row";
+      row.innerHTML =
+        "<span>" + cert.name + "</span>" +
+        '<button class="remove-btn" type="button" data-id="' + cert.id + '">삭제</button>';
+      box.appendChild(row);
+    });
+
+    box.querySelectorAll(".remove-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        toggleBookmark(btn.getAttribute("data-id"));
+        renderBookmarkModal();
+      });
+    });
+  }
+
+  /* =====================================================
+     합격 후기 카드
+  ===================================================== */
+  function renderReviewGrid() {
+    var filtered = reviewData.filter(function (r) {
+      return state.tag === "전체" || r.tags.indexOf(state.tag) !== -1;
+    });
+
+    var grid = document.getElementById("reviewGrid");
+    grid.innerHTML = "";
+
+    if (filtered.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "해당 태그의 후기가 아직 없습니다.";
+      grid.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(function (r) {
+      var card = document.createElement("article");
+      card.className = "review-card";
+      card.innerHTML =
+        '<div class="review-tags">' +
+          r.tags.map(function (t) { return "<span>#" + t + "</span>"; }).join("") +
+        "</div>" +
+        "<h3>" + r.title + "</h3>" +
+        '<p class="review-comment">' + r.comment + "</p>" +
+        '<div class="review-foot">' +
+          '<span><span class="review-author">' + r.author + "</span> · 합격까지 " + r.period + "</span>" +
+          '<button class="like-btn ' + (r.liked ? "liked" : "") + '" data-id="' + r.id + '" type="button">좋아요 ' + r.likes + "</button>" +
+        "</div>";
+      grid.appendChild(card);
+    });
+
+    document.querySelectorAll(".like-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = Number(btn.getAttribute("data-id"));
+        var review = reviewData.find(function (r) { return r.id === id; });
+        if (!review) return;
+        review.liked = !review.liked;
+        review.likes += review.liked ? 1 : -1;
+        renderReviewGrid();
+      });
+    });
+
+    observeRevealTargets(".review-card");
+  }
+
+  /* =====================================================
+     스크롤 등장 효과 (IntersectionObserver)
+  ===================================================== */
+  var revealObserver = ("IntersectionObserver" in window)
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 })
+    : null;
+
+  function observeRevealTargets(selector) {
+    if (!revealObserver) {
+      document.querySelectorAll(selector).forEach(function (el) { el.classList.add("is-visible"); });
+      return;
+    }
+    document.querySelectorAll(selector + ":not(.is-visible)").forEach(function (el) {
+      revealObserver.observe(el);
+    });
+  }
+
+  /* =====================================================
+     필터 바 이벤트 (분야 / 태그)
+  ===================================================== */
+  document.getElementById("fieldFilter").addEventListener("click", function (e) {
+    var btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    state.field = btn.getAttribute("data-field");
+    this.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    renderCertGrid();
+  });
+
+  document.getElementById("tagFilter").addEventListener("click", function (e) {
+    var btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    state.tag = btn.getAttribute("data-tag");
+    this.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    renderReviewGrid();
+  });
+
+  /* =====================================================
+     검색 (실시간 필터)
+  ===================================================== */
+  var searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", function () {
+    state.query = searchInput.value;
+    renderCertGrid();
+  });
+
+  document.getElementById("searchForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    state.query = searchInput.value;
+    renderCertGrid();
+    document.getElementById("recommend").scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.querySelectorAll(".chip").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      searchInput.value = chip.getAttribute("data-quick");
+      state.query = searchInput.value;
+      renderCertGrid();
+      document.getElementById("recommend").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  /* =====================================================
+     모달 공통 열기 / 닫기
+  ===================================================== */
+  function openModal(id) { document.getElementById(id).hidden = false; }
+  function closeModal(id) { document.getElementById(id).hidden = true; }
+
+  document.querySelectorAll("[data-close]").forEach(function (btn) {
+    btn.addEventListener("click", function () { closeModal(btn.getAttribute("data-close")); });
+  });
+
+  document.querySelectorAll(".modal-overlay").forEach(function (overlay) {
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+
+  /* =====================================================
+     찜 모달 열기
+  ===================================================== */
+  document.getElementById("bookmarkBtn").addEventListener("click", function () {
+    renderBookmarkModal();
+    openModal("bookmarkModal");
+  });
+
+  /* =====================================================
+     로그인 (mock)
+  ===================================================== */
+  var loginBtn = document.getElementById("loginBtn");
+  var writeReviewBtn = document.getElementById("writeReviewBtn");
+
+  loginBtn.addEventListener("click", function () {
+    if (state.isLoggedIn) {
+      state.isLoggedIn = false;
+      state.nickname = "";
+      loginBtn.textContent = "로그인";
+      writeReviewBtn.disabled = true;
+      writeReviewBtn.textContent = "로그인 후 후기 작성";
+    } else {
+      openModal("loginModal");
+    }
+  });
+
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var nickname = document.getElementById("nickname").value.trim();
+    if (!nickname) return;
+    state.isLoggedIn = true;
+    state.nickname = nickname;
+    loginBtn.textContent = nickname + "님 (로그아웃)";
+    writeReviewBtn.disabled = false;
+    writeReviewBtn.textContent = "후기 작성하기";
+    closeModal("loginModal");
+    e.target.reset();
+  });
+
+  /* =====================================================
+     후기 작성
+  ===================================================== */
+  writeReviewBtn.addEventListener("click", function () {
+    if (!state.isLoggedIn) return;
+    var select = document.getElementById("reviewCert");
+    select.innerHTML = certData.map(function (c) { return '<option value="' + c.name + '">' + c.name + "</option>"; }).join("");
+    openModal("reviewModal");
+  });
+
+  document.getElementById("reviewForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var certName = document.getElementById("reviewCert").value;
+    var title = document.getElementById("reviewTitleInput").value.trim();
+    var period = document.getElementById("reviewPeriod").value.trim();
+    var comment = document.getElementById("reviewComment").value.trim();
+    var tags = Array.prototype.slice.call(document.querySelectorAll('input[name="reviewTag"]:checked'))
+      .map(function (cb) { return cb.value; });
+
+    if (!title || !period || !comment) return;
+
+    reviewData.unshift({
+      id: state.nextReviewId++,
+      title: title + " (" + certName + ")",
+      author: state.nickname || "익명",
+      period: period,
+      comment: comment,
+      likes: 0,
+      liked: false,
+      tags: tags.length ? tags : ["독학"]
+    });
+
+    state.tag = "전체";
+    document.querySelectorAll("#tagFilter .filter-btn").forEach(function (b) { b.classList.remove("active"); });
+    document.querySelector('#tagFilter .filter-btn[data-tag="전체"]').classList.add("active");
+
+    renderReviewGrid();
+    closeModal("reviewModal");
+    e.target.reset();
+  });
+
+  /* =====================================================
+     초기 렌더링
+  ===================================================== */
+  renderBookmarkCount();
+  renderCalendar();
+  renderExamList();
+  renderCertGrid();
+  renderReviewGrid();
+})();
+</script>
+</body>
+</html>
