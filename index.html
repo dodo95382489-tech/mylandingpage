@@ -1093,14 +1093,18 @@ async function loadGuestbook() {
 
   data.forEach(item => {
 
-    list.innerHTML += `
-      <div class="guest-item">
-        <strong>${item.nickname}</strong>
-        <p>${item.message}</p>
-      </div>
-    `;
-  });
-}
+   list.innerHTML += `
+  <div class="guest-item">
+    <strong>${item.nickname}</strong>
+    <p>${item.message}</p>
+
+    <button
+      class="delete-btn"
+      data-id="${item.id}">
+      삭제
+    </button>
+  </div>
+`;
 
 document
 .getElementById("submitBtn")
@@ -1114,9 +1118,15 @@ document
 
   if(!nickname || !message) return;
 
-  await supabase
-    .from("guestbook")
-    .insert([{ nickname, message }]);
+ await supabase
+  .from("guestbook")
+  .insert([
+    {
+      nickname,
+      message,
+      password
+    }
+  ]);
 
   document.getElementById("guestMessage").value="";
 
@@ -1124,6 +1134,33 @@ document
 });
 
 loadGuestbook();
+    document.addEventListener("click", async (e) => {
+
+  if (!e.target.classList.contains("delete-btn"))
+    return;
+
+  const id = e.target.dataset.id;
+
+  const pw = prompt("비밀번호 입력");
+
+  const { data } = await supabase
+    .from("guestbook")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (data.password !== pw) {
+    alert("비밀번호가 틀렸습니다.");
+    return;
+  }
+
+  await supabase
+    .from("guestbook")
+    .delete()
+    .eq("id", id);
+
+  loadGuestbook();
+});
 </script>
 </body>
 </html>
