@@ -1,0 +1,488 @@
+웹사이트 기획서
+서비스명
+
+집에가고싶다
+
+1. 프로젝트 개요
+서비스 소개
+
+"집에가고싶다"는 누구나 한 번쯤 느끼는 "집에 가고 싶다"는 감정을 주제로 한 밈 기반 게임·커뮤니티 웹사이트입니다.
+
+사용자는 집에 가고 싶다는 버튼을 누르며 공감에 참여하고, 집에 가고 싶은 이유를 작성하거나 다른 사람들과 공감할 수 있습니다. 또한 미로를 통과해 집으로 도착하는 게임을 즐길 수 있습니다.
+
+2. 서비스 목표
+사용자들의 공감대를 형성한다.
+재미있는 밈 콘텐츠를 제공한다.
+커뮤니티와 게임 요소를 결합한다.
+SNS 공유를 통해 자연스러운 확산을 유도한다.
+3. 타겟 사용자
+주요 사용자
+직장인
+학생
+대학생
+아르바이트생
+시험 준비생
+연령대
+10대
+20대
+30대
+40대 이상
+핵심 특징
+
+현재 집에 가고 싶은 사람이라면 누구나 이용 가능
+
+4. 서비스 컨셉
+
+현실에서 집에 가고 싶은 사람들의 감정을 온라인 공간에서 유쾌하게 표현한다.
+
+사이트 전체가 "집으로 가기"라는 콘셉트로 구성된다.
+
+예시 문구
+
+집은 당신을 기다리고 있습니다.
+오늘도 버티고 계시는군요.
+집가고싶음 지수 상승 중
+집까지 앞으로 조금만 더
+5. 핵심 기능
+1. 집에 가고 싶다 버튼
+
+메인 화면 중앙에 대형 버튼 배치
+
+버튼명
+
+집에 가고 싶다
+
+클릭 시
+
+집계 수 증가
+애니메이션 재생
+랜덤 문구 출력
+
+예시
+
+현재 전국 1,284,311명이 집에 가고 싶어합니다.
+2. 전국 집가고싶음 카운터
+
+실시간 집계 기능
+
+표시 예시
+
+오늘 집에 가고 싶다고 누른 사람
+
+1,284,311명
+3. 집에 가고 싶은 이유 작성
+
+사용자가 현재 집에 가고 싶은 이유를 작성
+
+예시
+
+오늘 회의가 너무 길어요.
+숙제가 너무 많습니다.
+퇴근까지 4시간 남았습니다.
+
+기능
+
+작성
+수정
+삭제
+좋아요
+댓글
+4. 미로 탈출 게임
+게임 컨셉
+
+출발 지점은 회사, 학교, 학원 등
+
+도착 지점은 집
+
+플레이 방식
+마우스로 캐릭터 이동
+벽에 닿으면 시작 위치로 이동
+제한 시간 내 도착 가능
+기록 저장
+장애물 예시
+회의
+야근
+과제
+업무 전화
+월요일
+성공 시
+
+메시지 예시
+
+퇴근 성공
+
+오늘도 무사히 집에 도착했습니다.
+랭킹
+오늘의 최고 기록
+주간 최고 기록
+전체 최고 기록
+5. 오늘의 집가고싶음 지수
+
+사용자 투표 기능
+
+질문
+
+오늘 얼마나 집에 가고 싶나요?
+
+선택
+
+1 ~ 10
+
+결과
+
+전국 평균
+
+8.9점
+6. 회원가입
+가입 방법
+이메일 회원가입
+구글 로그인
+회원 기능
+게시글 작성
+댓글 작성
+좋아요
+게임 기록 저장
+랭킹 참여
+프로필 관리
+6. 디자인 방향
+디자인 키워드
+귀여움
+키치
+캐주얼
+레트로 인터넷 감성
+밈 문화
+컬러 팔레트
+빨강
+#FF5757
+노랑
+#FFD93D
+초록
+#6BCB77
+파랑
+#4D96FF
+배경색
+#FFF8E7
+UI 스타일
+버튼
+둥근 모서리
+두꺼운 외곽선
+입체적인 그림자
+폰트
+
+추천
+
+Pretendard
+Gmarket Sans
+둥근모꼴 계열
+분위기
+
+장난스럽고 가볍지만 깔끔한 느낌
+
+7. 페이지 구성
+메인 페이지
+로고
+
+집에가고싶다
+
+[집에 가고 싶다 버튼]
+
+실시간 카운터
+
+오늘의 집가고싶음 지수
+
+실시간 이유 목록
+
+인기 게시글
+커뮤니티 페이지
+인기 게시글
+
+최신 게시글
+
+글쓰기
+
+댓글
+게임 페이지
+출발 지점
+
+미로
+
+도착 지점(집)
+
+기록
+마이페이지
+프로필
+
+작성한 글
+
+좋아요 수
+
+게임 기록
+
+랭킹
+8. 기술 스택
+프론트엔드
+HTML5
+CSS3
+JavaScript
+백엔드
+Firebase
+데이터베이스
+Firebase Firestore
+인증
+Firebase Authentication
+배포
+Firebase Hosting
+GitHub Pages
+9. MVP(최소 기능 제품)
+
+1차 출시 기능
+
+회원가입 및 로그인
+집에 가고 싶다 버튼
+실시간 카운터
+이유 작성 게시판
+좋아요 기능
+미로 게임
+랭킹 시스템
+기대 효과
+누구나 공감할 수 있는 주제로 높은 참여율 확보
+밈 문화와 게임 요소를 결합한 차별화
+SNS 공유를 통한 자연스러운 바이럴
+커뮤니티와 게임을 동시에 즐길 수 있는 서비스 제공
+슬로건
+
+"집에 가고 싶은 사람들을 위한 가장 빠른 지름길."
+
+코드짜줘
+
+좋습니다. 우선 HTML/CSS/JS만으로 만들 수 있는 MVP 버전을 만들어 드릴게요.
+
+기능:
+
+집에 가고 싶다 버튼
+카운터 증가
+랜덤 밈 문구 출력
+집에 가고 싶은 이유 작성
+이유 목록 표시
+귀엽고 키치한 디자인
+
+아래 코드를 index.html 하나로 저장하면 바로 실행됩니다.
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>집에가고싶다</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Pretendard',sans-serif;
+}
+
+body{
+    background:#FFF8E7;
+    display:flex;
+    justify-content:center;
+    padding:40px 20px;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+}
+
+.logo{
+    text-align:center;
+    font-size:48px;
+    font-weight:900;
+    color:#FF5757;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    border:4px solid black;
+    border-radius:25px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:8px 8px 0 black;
+}
+
+.counter{
+    text-align:center;
+}
+
+.counter h2{
+    margin-bottom:10px;
+}
+
+.count{
+    font-size:48px;
+    font-weight:bold;
+    color:#4D96FF;
+}
+
+.home-btn{
+    width:100%;
+    border:none;
+    padding:20px;
+    font-size:24px;
+    font-weight:bold;
+    background:#FFD93D;
+    border-radius:20px;
+    cursor:pointer;
+    margin-top:20px;
+    border:4px solid black;
+    transition:0.15s;
+}
+
+.home-btn:hover{
+    transform:translateY(-3px);
+}
+
+.home-btn:active{
+    transform:scale(0.95);
+}
+
+.message{
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+    color:#FF5757;
+    min-height:30px;
+}
+
+textarea{
+    width:100%;
+    height:100px;
+    padding:15px;
+    border-radius:15px;
+    border:3px solid black;
+    resize:none;
+}
+
+.submit-btn{
+    margin-top:10px;
+    width:100%;
+    padding:15px;
+    border:none;
+    background:#6BCB77;
+    font-weight:bold;
+    font-size:18px;
+    border-radius:15px;
+    border:3px solid black;
+    cursor:pointer;
+}
+
+.post{
+    background:#f5f5f5;
+    padding:15px;
+    border-radius:15px;
+    margin-top:10px;
+    border:2px solid #ddd;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        집에가고싶다
+    </div>
+
+    <div class="card counter">
+        <h2>오늘 집에 가고 싶다고 외친 사람</h2>
+
+        <div class="count" id="count">
+            0
+        </div>
+
+        <button class="home-btn" onclick="goHome()">
+            집에 가고 싶다
+        </button>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <div class="card">
+        <h2>왜 집에 가고 싶나요?</h2>
+
+        <textarea
+        id="reason"
+        placeholder="집에 가고 싶은 이유를 적어주세요..."></textarea>
+
+        <button class="submit-btn" onclick="addReason()">
+            등록하기
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>실시간 집가고싶음</h2>
+
+        <div id="posts"></div>
+    </div>
+
+</div>
+
+<script>
+let count = 0;
+
+const messages = [
+"집은 당신을 기다리고 있습니다.",
+"현재 집가고싶음 지수 상승 중.",
+"퇴근까지 조금만 더.",
+"오늘도 잘 버티고 계시는군요.",
+"집이 가장 안전합니다.",
+"당신의 집가고싶음이 기록되었습니다.",
+"전국의 집순이, 집돌이가 응원합니다."
+];
+
+function goHome(){
+
+    count++;
+
+    document.getElementById("count").innerText = count;
+
+    const random =
+    messages[Math.floor(Math.random()*messages.length)];
+
+    document.getElementById("message").innerText =
+    random;
+}
+
+function addReason(){
+
+    const input =
+    document.getElementById("reason");
+
+    const text =
+    input.value.trim();
+
+    if(text===""){
+        alert("이유를 입력해주세요.");
+        return;
+    }
+
+    const post =
+    document.createElement("div");
+
+    post.className = "post";
+
+    post.innerText = text;
+
+    document.getElementById("posts")
+    .prepend(post);
+
+    input.value = "";
+}
+</script>
+
+</body>
+</html>
+
+다음 단계로 발전시키면:

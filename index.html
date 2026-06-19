@@ -1,0 +1,999 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>슬기로운 자격생활 — 합격 루트를 설계하다</title>
+<meta name="description"  />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css">
+<link rel="shortcut icon" href="./슬기로운 자격생활.png" type="아이콘">
+
+<!-- css/style.css 에 .field-msg 클래스가 없을 수 있어서, 안전하게 보이도록 최소 스타일만 인라인으로 추가 -->
+<style>
+  .field-msg { display:block; font-size:0.8rem; margin-top:4px; min-height:1em; }
+  .id-check-row { display:flex; gap:8px; align-items:center; }
+  .id-check-row input { flex:1; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top">슬기로운 자격생활</a>
+    <nav class="main-nav" aria-label="주요 메뉴">
+      <a href="#schedule">시험 일정</a>
+      <a href="#recommend">추천 자격증</a>
+      <a href="#community">합격 후기</a>
+    </nav>
+    <div class="header-actions">
+      <button id="bookmarkBtn" class="ghost-btn" type="button">내 리스트 <span id="bookmarkCount">0</span></button>
+      <button id="loginBtn" class="ghost-btn" type="button">로그인</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">자격증 정보 X 의사결정 플랫폼</p>
+        <h1>당신의 합격 루트를<br />설계해드립니다</h1>
+        <p class="hero-sub">무슨 자격증을 언제, 왜 따야 하는지 결정을 도와드립니다.</p>
+        <form class="search-form" id="searchForm" role="search">
+          <label for="searchInput" class="visually-hidden">자격증 검색</label>
+          <input type="text" id="searchInput" placeholder="예) 정보처리기사, SQLD, 한국사능력검정시험" autocomplete="off" />
+          <button type="submit">검색</button>
+        </form>
+        <div class="quick-tags">
+          <button class="chip" type="button" data-quick="정보처리기사">정보처리기사</button>
+          <button class="chip" type="button" data-quick="SQLD">SQLD</button>
+          <button class="chip" type="button" data-quick="한국사">한국사능력검정시험</button>
+          <button class="chip" type="button" data-quick="ADsP">ADsP</button>
+        </div>
+      </div>
+      <div class="hero-seal" aria-hidden="true">
+        <div class="seal-ring">
+          <svg viewBox="0 0 220 220" class="seal-rotate">
+            <defs>
+              <path id="sealCircle" d="M 110,110 m -82,0 a 82,82 0 1,1 164,0 a 82,82 0 1,1 -164,0" />
+            </defs>
+            <circle cx="110" cy="110" r="95" class="seal-outer" />
+            <circle cx="110" cy="110" r="60" class="seal-inner" />
+            <text class="seal-text">
+              <textPath href="#sealCircle" startOffset="0%">합격을 디자인하다 · PASS DESIGN · 합격을 디자인하다 · PASS DESIGN ·</textPath>
+            </text>
+          </svg>
+          <div class="seal-core">
+            <span class="seal-word">合格</span>
+            <span class="seal-sub">PASS DESIGN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="schedule" id="schedule">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>이번 달, 무엇을 준비해야 할까요</h2>
+        <p>시험 일정을 한눈에 보고 D-day로 공부 우선순위를 정하세요.</p>
+      </div>
+      <div class="schedule-grid">
+        <div class="calendar-card">
+          <div class="calendar-toolbar">
+            <button id="prevMonth" type="button" aria-label="이전 달">‹</button>
+            <h3 id="calendarTitle"></h3>
+            <button id="nextMonth" type="button" aria-label="다음 달">›</button>
+          </div>
+          <div class="calendar-weekdays">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+        <div class="exam-list-card">
+          <h3>다가오는 시험 TOP 5</h3>
+          <ul class="exam-list" id="examList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="recommend" id="recommend">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>지금 시작하기 좋은 자격증</h2>
+        <p>분야와 검색으로 내 수준과 목표에 맞는 자격증을 좁혀보세요.</p>
+      </div>
+      <div class="filter-bar" id="fieldFilter">
+        <button class="filter-btn active" type="button" data-field="전체">전체</button>
+        <button class="filter-btn" type="button" data-field="IT/데이터">IT/데이터</button>
+        <button class="filter-btn" type="button" data-field="사무/행정">사무/행정</button>
+        <button class="filter-btn" type="button" data-field="공무원/교직">공무원/교직</button>
+        <button class="filter-btn" type="button" data-field="마케팅/조사">마케팅/조사</button>
+      </div>
+      <div class="cert-grid" id="certGrid"></div>
+    </div>
+  </section>
+
+  <section class="community" id="community">
+    <div class="wrap">
+      <div class="community-head-row">
+        <div class="section-head" style="margin-bottom:0;">
+          <h2>합격은 멀지 않습니다</h2>
+          <p>실제 합격자들의 경험에서 전략과 동기를 얻어가세요.</p>
+        </div>
+        <button id="writeReviewBtn" class="primary-btn" type="button" disabled>로그인 후 후기 작성</button>
+      </div>
+      <div class="filter-bar" id="tagFilter" style="margin-top:28px;">
+        <button class="filter-btn active" type="button" data-tag="전체">전체</button>
+        <button class="filter-btn" type="button" data-tag="노베이스">노베이스</button>
+        <button class="filter-btn" type="button" data-tag="단기합격">단기합격</button>
+        <button class="filter-btn" type="button" data-tag="독학">독학</button>
+        <button class="filter-btn" type="button" data-tag="고득점">고득점</button>
+      </div>
+      <div class="review-grid" id="reviewGrid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>슬기로운 자격생활 — 정보를 나열하지 않고 결정을 돕는 플랫폼</p>
+</footer>
+
+<!-- 로그인 모달 -->
+<div class="modal-overlay" id="loginModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+
+    <button class="modal-close" type="button" data-close="loginModal" aria-label="닫기">×</button>
+
+    <h3 id="loginTitle">로그인</h3>
+
+    <form id="loginForm">
+
+      <div class="field-row">
+        <label for="loginId">아이디</label>
+        <input type="text" id="loginId" placeholder="아이디 입력" required>
+      </div>
+
+      <div class="field-row">
+        <label for="loginPw">비밀번호</label>
+        <div class="password-wrap">
+          <input type="password" id="loginPw" placeholder="비밀번호 입력" required>
+          <button type="button" id="toggleLoginPw">👁</button>
+        </div>
+      </div>
+
+      <button class="modal-submit" type="submit">로그인</button>
+
+      <button type="button" id="openSignupBtn" class="ghost-btn" style="width:100%;margin-top:10px;">회원가입</button>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- 회원가입 모달 -->
+<div class="modal-overlay" id="signupModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+
+    <button class="modal-close" type="button" data-close="signupModal" aria-label="닫기">×</button>
+
+    <h3 id="signupTitle">회원가입</h3>
+
+    <form id="signupForm">
+
+      <div class="field-row">
+        <label for="signupId">아이디</label>
+        <div class="id-check-row">
+          <input type="text" id="signupId" required>
+          <button type="button" id="checkIdBtn" class="ghost-btn">중복확인</button>
+        </div>
+        <span class="field-msg" id="idMsg"></span>
+      </div>
+
+      <div class="field-row">
+        <label for="signupEmail">이메일</label>
+        <input type="email" id="signupEmail" required>
+        <span class="field-msg" id="emailMsg"></span>
+      </div>
+
+      <div class="field-row">
+        <label for="signupPhone">전화번호</label>
+        <input type="text" id="signupPhone" maxlength="11" placeholder="숫자만 11자리" required>
+        <span class="field-msg" id="phoneMsg"></span>
+      </div>
+
+      <div class="field-row">
+        <label for="signupPw">비밀번호</label>
+        <div class="password-wrap">
+          <input type="password" id="signupPw" required>
+          <button type="button" id="toggleSignupPw">👁</button>
+        </div>
+        <span class="field-msg" id="pwMsg"></span>
+      </div>
+
+      <div class="field-row">
+        <label for="signupPwCheck">비밀번호 확인</label>
+        <input type="password" id="signupPwCheck" required>
+        <span class="field-msg" id="pwCheckMsg"></span>
+      </div>
+
+      <button class="modal-submit" type="submit">회원가입</button>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- 후기 작성 모달 -->
+<div class="modal-overlay" id="reviewModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="reviewTitle">
+    <button class="modal-close" type="button" data-close="reviewModal" aria-label="닫기">×</button>
+    <h3 id="reviewTitle">합격 후기 작성</h3>
+    <form id="reviewForm">
+      <div class="field-row">
+        <label for="reviewCert">자격증</label>
+        <select id="reviewCert" required></select>
+      </div>
+      <div class="field-row">
+        <label for="reviewTitleInput">제목</label>
+        <input type="text" id="reviewTitleInput" placeholder="예) 두 달 만에 합격한 후기" required />
+      </div>
+      <div class="field-row">
+        <label for="reviewPeriod">합격까지 걸린 기간</label>
+        <input type="text" id="reviewPeriod" placeholder="예) 8주" required />
+      </div>
+      <div class="field-row">
+        <label for="reviewComment">한줄 후기</label>
+        <textarea id="reviewComment" rows="2" placeholder="가장 도움이 됐던 한 가지를 적어주세요" required></textarea>
+      </div>
+      <div class="field-row">
+        <label>태그</label>
+        <div class="tag-check-row">
+          <label><input type="checkbox" name="reviewTag" value="노베이스" />노베이스</label>
+          <label><input type="checkbox" name="reviewTag" value="단기합격" />단기합격</label>
+          <label><input type="checkbox" name="reviewTag" value="독학" />독학</label>
+          <label><input type="checkbox" name="reviewTag" value="고득점" />고득점</label>
+        </div>
+      </div>
+      <button class="modal-submit" type="submit">후기 등록하기</button>
+    </form>
+  </div>
+</div>
+
+<!-- 내 리스트(찜) 모달 -->
+<div class="modal-overlay" id="bookmarkModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="bookmarkTitle">
+    <button class="modal-close" type="button" data-close="bookmarkModal" aria-label="닫기">×</button>
+    <h3 id="bookmarkTitle">내 학습 리스트</h3>
+    <div id="bookmarkList"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+(function () {
+  /* =====================================================
+     데이터
+  ===================================================== */
+  var certData = [
+    { id: "infoproc", name: "정보처리기사", field: "IT/데이터", difficulty: "중", duration: "8주", passRate: "52%", usage: "IT・소프트웨어 개발 직무", badge: "인기" },
+    { id: "sqld", name: "SQLD (SQL개발자)", field: "IT/데이터", difficulty: "하~중", duration: "3주", passRate: "68%", usage: "데이터・백엔드 직무" },
+    { id: "adsp", name: "ADsP (데이터분석 준전문가)", field: "IT/데이터", difficulty: "중", duration: "4주", passRate: "45%", usage: "데이터 분석 입문" },
+    { id: "computil", name: "컴퓨터활용능력 1급", field: "사무/행정", difficulty: "중", duration: "6주", passRate: "38%", usage: "사무・행정 전반", badge: "추천" },
+    { id: "kohist", name: "한국사능력검정시험 1급", field: "공무원/교직", difficulty: "중~상", duration: "5주", passRate: "41%", usage: "공무원・교직 가산점" },
+    { id: "socsurvey", name: "사회조사분석사 2급", field: "마케팅/조사", difficulty: "중", duration: "7주", passRate: "49%", usage: "조사・마케팅 직무" }
+  ];
+
+  var examData = [
+    { name: "정보처리기사 실기", date: "2026-07-04", field: "IT/데이터" },
+    { name: "SQLD", date: "2026-07-12", field: "IT/데이터" },
+    { name: "컴퓨터활용능력 1급 필기", date: "2026-06-28", field: "사무/행정" },
+    { name: "한국사능력검정시험 52회", date: "2026-08-09", field: "공무원/교직" },
+    { name: "ADsP", date: "2026-07-19", field: "IT/데이터" },
+    { name: "사회조사분석사 2급 필기", date: "2026-06-21", field: "마케팅/조사" }
+  ];
+
+  var reviewData = [
+    { id: 1, title: "비전공자도 두 달 만에 정보처리기사 합격했어요", author: "코딩기린", period: "8주", comment: "기출 3회독이 합격의 전부였습니다.", likes: 128, liked: false, tags: ["노베이스", "단기합격"] },
+    { id: 2, title: "독학으로 ADsP 한 번에 붙은 후기", author: "데이터별", period: "4주", comment: "이론보다 기출 분석이 9할이었어요.", likes: 94, liked: false, tags: ["독학", "단기합격"] },
+    { id: 3, title: "한국사 1급, 흐름 잡고 받은 고득점 전략", author: "역사덕후", period: "6주", comment: "암기는 흐름을 이해한 다음이 빨랐습니다.", likes: 76, liked: false, tags: ["고득점"] },
+    { id: 4, title: "직장인이 컴활 1급 준비하며 남긴 기록", author: "직장인K", period: "9주", comment: "평일엔 30분, 주말엔 몰아서 했습니다.", likes: 61, liked: false, tags: ["단기합격"] },
+    { id: 5, title: "SQLD 일주일 벼락치기, 그래도 합격했습니다", author: "급한사람", period: "1주", comment: "기출문제만 세 번 반복해서 풀었어요.", likes: 142, liked: false, tags: ["단기합격", "노베이스"] },
+    { id: 6, title: "사회조사분석사 2급, 차분히 준비한 기록", author: "조사왕", period: "7주", comment: "통계 개념부터 천천히 다졌습니다.", likes: 53, liked: false, tags: ["독학"] }
+  ];
+
+  var state = {
+    field: "전체",
+    query: "",
+    tag: "전체",
+    isLoggedIn: false,
+    nickname: "",
+    calendarDate: new Date(),
+    nextReviewId: reviewData.length + 1
+  };
+
+  /* =====================================================
+     localStorage 헬퍼 (찜 기능)
+  ===================================================== */
+  var STORAGE_KEY = "scs_bookmarked_certs";
+
+  function getBookmarks() {
+    try {
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setBookmarks(list) {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) { /* localStorage 사용 불가 시 무시 */ }
+  }
+
+  function toggleBookmark(id) {
+    var list = getBookmarks();
+    var idx = list.indexOf(id);
+    if (idx === -1) { list.push(id); } else { list.splice(idx, 1); }
+    setBookmarks(list);
+    renderBookmarkCount();
+    renderCertGrid();
+  }
+
+  function renderBookmarkCount() {
+    document.getElementById("bookmarkCount").textContent = String(getBookmarks().length);
+  }
+
+  /* =====================================================
+     날짜 / D-day 유틸
+  ===================================================== */
+  function startOfDay(d) {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  function getDday(dateStr) {
+    var today = startOfDay(new Date());
+    var target = startOfDay(new Date(dateStr + "T00:00:00"));
+    return Math.round((target - today) / 86400000);
+  }
+
+  function formatDday(n) {
+    if (n === 0) return "D-DAY";
+    if (n > 0) return "D-" + n;
+    return "종료";
+  }
+
+  function formatDate(dateStr) {
+    var d = new Date(dateStr + "T00:00:00");
+    var days = ["일", "월", "화", "수", "목", "금", "토"];
+    return (d.getMonth() + 1) + "월 " + d.getDate() + "일 (" + days[d.getDay()] + ")";
+  }
+
+  /* =====================================================
+     캘린더 렌더링
+  ===================================================== */
+  function renderCalendar() {
+    var year = state.calendarDate.getFullYear();
+    var month = state.calendarDate.getMonth();
+    document.getElementById("calendarTitle").textContent = year + "년 " + (month + 1) + "월";
+
+    var firstDay = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var today = startOfDay(new Date());
+
+    var examsByDate = {};
+    examData.forEach(function (ex) { examsByDate[ex.date] = ex; });
+
+    var grid = document.getElementById("calendarGrid");
+    grid.innerHTML = "";
+
+    for (var i = 0; i < firstDay; i++) {
+      var blank = document.createElement("div");
+      blank.className = "cal-cell empty";
+      grid.appendChild(blank);
+    }
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var cellDate = new Date(year, month, day);
+      var iso = year + "-" + String(month + 1).padStart(2, "0") + "-" + String(day).padStart(2, "0");
+      var cell = document.createElement("div");
+      cell.className = "cal-cell";
+      if (startOfDay(cellDate).getTime() === today.getTime()) cell.classList.add("today");
+      if (examsByDate[iso]) {
+        cell.classList.add("exam-day");
+        cell.title = examsByDate[iso].name;
+      }
+      cell.textContent = String(day);
+      grid.appendChild(cell);
+    }
+  }
+
+  document.getElementById("prevMonth").addEventListener("click", function () {
+    state.calendarDate.setMonth(state.calendarDate.getMonth() - 1);
+    renderCalendar();
+  });
+  document.getElementById("nextMonth").addEventListener("click", function () {
+    state.calendarDate.setMonth(state.calendarDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  /* =====================================================
+     다가오는 시험 TOP5
+  ===================================================== */
+  function renderExamList() {
+    var upcoming = examData
+      .map(function (ex) { return Object.assign({}, ex, { dday: getDday(ex.date) }); })
+      .filter(function (ex) { return ex.dday >= 0; })
+      .sort(function (a, b) { return a.dday - b.dday; })
+      .slice(0, 5);
+
+    var list = document.getElementById("examList");
+    list.innerHTML = "";
+
+    if (upcoming.length === 0) {
+      var li = document.createElement("li");
+      li.textContent = "예정된 시험이 없습니다.";
+      list.appendChild(li);
+      return;
+    }
+
+    upcoming.forEach(function (ex) {
+      var li = document.createElement("li");
+      li.innerHTML =
+        '<span class="dday-badge">' + formatDday(ex.dday) + "</span>" +
+        '<span class="exam-meta">' +
+          '<span class="exam-name">' + ex.name + "</span>" +
+          '<span class="exam-date">' + formatDate(ex.date) + "</span>" +
+        "</span>" +
+        '<span class="field-tag">' + ex.field + "</span>";
+      list.appendChild(li);
+    });
+  }
+
+  /* =====================================================
+     추천 자격증 카드
+  ===================================================== */
+  function renderCertGrid() {
+    var bookmarks = getBookmarks();
+    var q = state.query.trim().toLowerCase();
+
+    var filtered = certData.filter(function (c) {
+      var matchField = state.field === "전체" || c.field === state.field;
+      var matchQuery = q === "" ||
+        c.name.toLowerCase().indexOf(q) !== -1 ||
+        c.usage.toLowerCase().indexOf(q) !== -1;
+      return matchField && matchQuery;
+    });
+
+    var grid = document.getElementById("certGrid");
+    grid.innerHTML = "";
+
+    if (filtered.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "조건에 맞는 자격증이 없습니다. 다른 검색어나 분야를 시도해보세요.";
+      grid.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(function (c) {
+      var saved = bookmarks.indexOf(c.id) !== -1;
+      var card = document.createElement("article");
+      card.className = "cert-card";
+      card.innerHTML =
+        '<div class="cert-card-top">' +
+          "<div>" +
+            "<h3>" + c.name + "</h3>" +
+            '<span class="cert-field">' + c.field + "</span>" +
+          "</div>" +
+          (c.badge ? '<span class="badge-stamp">' + c.badge + "</span>" : "") +
+        "</div>" +
+        '<div class="cert-stats">' +
+          '<div class="stat"><span>난이도</span><strong>' + c.difficulty + "</strong></div>" +
+          '<div class="stat"><span>공부 기간</span><strong>' + c.duration + "</strong></div>" +
+          '<div class="stat"><span>합격률</span><strong>' + c.passRate + "</strong></div>" +
+          '<div class="stat"><span>활용 분야</span><strong style="font-family:inherit;">' + c.field + "</strong></div>" +
+        "</div>" +
+        '<p class="cert-usage">' + c.usage + "</p>" +
+        '<div class="cert-actions">' +
+          '<button class="save-btn ' + (saved ? "saved" : "") + '" data-id="' + c.id + '" type="button">' +
+            (saved ? "내 리스트에 담김" : "내 리스트에 담기") +
+          "</button>" +
+        "</div>";
+      grid.appendChild(card);
+    });
+
+    document.querySelectorAll(".save-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () { toggleBookmark(btn.getAttribute("data-id")); });
+    });
+
+    observeRevealTargets(".cert-card");
+  }
+
+  /* =====================================================
+     내 리스트(찜) 모달
+  ===================================================== */
+  function renderBookmarkModal() {
+    var ids = getBookmarks();
+    var box = document.getElementById("bookmarkList");
+    box.innerHTML = "";
+
+    if (ids.length === 0) {
+      box.innerHTML = '<p style="color:var(--ink-soft); font-size:0.88rem;">아직 담은 자격증이 없습니다. 추천 자격증에서 담아보세요.</p>';
+      return;
+    }
+
+    ids.forEach(function (id) {
+      var cert = certData.find(function (c) { return c.id === id; });
+      if (!cert) return;
+      var row = document.createElement("div");
+      row.className = "bookmark-row";
+      row.innerHTML =
+        "<span>" + cert.name + "</span>" +
+        '<button class="remove-btn" type="button" data-id="' + cert.id + '">삭제</button>';
+      box.appendChild(row);
+    });
+
+    box.querySelectorAll(".remove-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        toggleBookmark(btn.getAttribute("data-id"));
+        renderBookmarkModal();
+      });
+    });
+  }
+
+  /* =====================================================
+     합격 후기 카드
+  ===================================================== */
+  function renderReviewGrid() {
+    var filtered = reviewData.filter(function (r) {
+      return state.tag === "전체" || r.tags.indexOf(state.tag) !== -1;
+    });
+
+    var grid = document.getElementById("reviewGrid");
+    grid.innerHTML = "";
+
+    if (filtered.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "해당 태그의 후기가 아직 없습니다.";
+      grid.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(function (r) {
+      var card = document.createElement("article");
+      card.className = "review-card";
+      card.innerHTML =
+        '<div class="review-tags">' +
+          r.tags.map(function (t) { return "<span>#" + t + "</span>"; }).join("") +
+        "</div>" +
+        "<h3>" + r.title + "</h3>" +
+        '<p class="review-comment">' + r.comment + "</p>" +
+        '<div class="review-foot">' +
+          '<span><span class="review-author">' + r.author + "</span> · 합격까지 " + r.period + "</span>" +
+          '<button class="like-btn ' + (r.liked ? "liked" : "") + '" data-id="' + r.id + '" type="button">좋아요 ' + r.likes + "</button>" +
+        "</div>";
+      grid.appendChild(card);
+    });
+
+    document.querySelectorAll(".like-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = Number(btn.getAttribute("data-id"));
+        var review = reviewData.find(function (r) { return r.id === id; });
+        if (!review) return;
+        review.liked = !review.liked;
+        review.likes += review.liked ? 1 : -1;
+        renderReviewGrid();
+      });
+    });
+
+    observeRevealTargets(".review-card");
+  }
+
+  /* =====================================================
+     스크롤 등장 효과 (IntersectionObserver)
+  ===================================================== */
+  var revealObserver = ("IntersectionObserver" in window)
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 })
+    : null;
+
+  function observeRevealTargets(selector) {
+    if (!revealObserver) {
+      document.querySelectorAll(selector).forEach(function (el) { el.classList.add("is-visible"); });
+      return;
+    }
+    document.querySelectorAll(selector + ":not(.is-visible)").forEach(function (el) {
+      revealObserver.observe(el);
+    });
+  }
+
+  /* =====================================================
+     필터 바 이벤트 (분야 / 태그)
+  ===================================================== */
+  document.getElementById("fieldFilter").addEventListener("click", function (e) {
+    var btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    state.field = btn.getAttribute("data-field");
+    this.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    renderCertGrid();
+  });
+
+  document.getElementById("tagFilter").addEventListener("click", function (e) {
+    var btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    state.tag = btn.getAttribute("data-tag");
+    this.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    renderReviewGrid();
+  });
+
+  /* =====================================================
+     검색 (실시간 필터)
+  ===================================================== */
+  var searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", function () {
+    state.query = searchInput.value;
+    renderCertGrid();
+  });
+
+  document.getElementById("searchForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    state.query = searchInput.value;
+    renderCertGrid();
+    document.getElementById("recommend").scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.querySelectorAll(".chip").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      searchInput.value = chip.getAttribute("data-quick");
+      state.query = searchInput.value;
+      renderCertGrid();
+      document.getElementById("recommend").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  /* =====================================================
+     모달 공통 열기 / 닫기
+  ===================================================== */
+  function openModal(id) { document.getElementById(id).hidden = false; }
+  function closeModal(id) { document.getElementById(id).hidden = true; }
+
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+
+  document.querySelectorAll("[data-close]").forEach(function (btn) {
+    btn.addEventListener("click", function () { closeModal(btn.getAttribute("data-close")); });
+  });
+
+  document.querySelectorAll(".modal-overlay").forEach(function (overlay) {
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+
+  /* =====================================================
+     찜 모달 열기
+  ===================================================== */
+  document.getElementById("bookmarkBtn").addEventListener("click", function () {
+    renderBookmarkModal();
+    openModal("bookmarkModal");
+  });
+
+  document.getElementById("openSignupBtn").addEventListener("click", function () {
+    closeModal("loginModal");
+    openModal("signupModal");
+  });
+
+  /* =====================================================
+     로그인 / 회원가입 (localStorage를 mock DB로 사용)
+  ===================================================== */
+  var loginBtn = document.getElementById("loginBtn");
+  var writeReviewBtn = document.getElementById("writeReviewBtn");
+
+  var USER_KEY = "scs_users";
+  var CURRENT_USER_KEY = "scs_current_user";
+
+  function getUsers() {
+    try {
+      var raw = window.localStorage.getItem(USER_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+
+  function saveUsers(users) {
+    try { window.localStorage.setItem(USER_KEY, JSON.stringify(users)); } catch (e) {}
+  }
+
+  function makeRandomIds(count) {
+    var ids = [];
+    for (var i = 0; i < count; i++) {
+      ids.push("user" + Math.random().toString(36).substring(2, 8));
+    }
+    return ids;
+  }
+
+  // 중복확인 기능을 테스트할 수 있도록, DB가 비어있을 때만 임의의 회원 50명을 시드 데이터로 채워둠.
+  // 실제 서비스에서는 이 부분을 백엔드 회원 DB 조회로 교체하면 됩니다.
+  (function seedMockUsers() {
+    var users = getUsers();
+    if (users.length > 0) return;
+    var ids = makeRandomIds(50);
+    ids.forEach(function (id) {
+      users.push({ id: id, email: id + "@example.com", phone: "01000000000", password: "Temp1234!" });
+    });
+    saveUsers(users);
+  })();
+
+  var signupForm = document.getElementById("signupForm");
+  var signupId = document.getElementById("signupId");
+  var signupEmail = document.getElementById("signupEmail");
+  var signupPhone = document.getElementById("signupPhone");
+  var signupPw = document.getElementById("signupPw");
+  var signupPwCheck = document.getElementById("signupPwCheck");
+  var checkIdBtn = document.getElementById("checkIdBtn");
+  var idMsg = document.getElementById("idMsg");
+  var emailMsg = document.getElementById("emailMsg");
+  var phoneMsg = document.getElementById("phoneMsg");
+  var pwMsg = document.getElementById("pwMsg");
+  var pwCheckMsg = document.getElementById("pwCheckMsg");
+  var toggleSignupPw = document.getElementById("toggleSignupPw");
+
+  var loginForm = document.getElementById("loginForm");
+  var toggleLoginPw = document.getElementById("toggleLoginPw");
+
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // 비밀번호 패턴: 8자 이상 + 대문자 + 소문자 + 숫자 + 특수문자(@$!%*?&) 각 1개 이상
+  var pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+  var idChecked = false;
+
+  // 전화번호: 숫자만 입력되도록 강제하고, 11자리가 맞는지 즉시 표시
+  signupPhone.addEventListener("input", function () {
+    signupPhone.value = signupPhone.value.replace(/\D/g, "");
+    if (signupPhone.value.length === 11) {
+      phoneMsg.textContent = "사용 가능한 전화번호 형식입니다";
+      phoneMsg.style.color = "green";
+    } else {
+      phoneMsg.textContent = "숫자만 입력, 11자리를 채워주세요";
+      phoneMsg.style.color = "blue";
+    }
+  });
+
+  // 이메일 형식 검증
+  signupEmail.addEventListener("input", function () {
+    if (emailRegex.test(signupEmail.value)) {
+      emailMsg.textContent = "올바른 이메일 형식입니다";
+      emailMsg.style.color = "green";
+    } else {
+      emailMsg.textContent = "이메일 형식이 올바르지 않습니다";
+      emailMsg.style.color = "red";
+    }
+  });
+
+  // 아이디 중복확인: mock DB(50명 시드 + 실제 가입자)를 조회
+  checkIdBtn.addEventListener("click", function () {
+    var id = signupId.value.trim();
+    if (!id) {
+      idMsg.textContent = "아이디를 입력해주세요";
+      idMsg.style.color = "red";
+      idChecked = false;
+      return;
+    }
+    var users = getUsers();
+    var exists = users.some(function (u) { return u.id === id; });
+    if (exists) {
+      idMsg.textContent = "이미 사용중인 아이디입니다";
+      idMsg.style.color = "red";
+      idChecked = false;
+    } else {
+      idMsg.textContent = "사용 가능한 아이디입니다";
+      idMsg.style.color = "green";
+      idChecked = true;
+    }
+  });
+
+  // 아이디를 다시 수정하면 중복확인을 다시 받아야 함
+  signupId.addEventListener("input", function () {
+    idChecked = false;
+    idMsg.textContent = "";
+  });
+
+  // 비밀번호 패턴 검증
+  signupPw.addEventListener("input", function () {
+    if (pwRegex.test(signupPw.value)) {
+      pwMsg.textContent = "안전한 비밀번호입니다";
+      pwMsg.style.color = "green";
+    } else {
+      pwMsg.textContent = "8자 이상, 대/소문자, 숫자, 특수문자를 포함해주세요";
+      pwMsg.style.color = "red";
+    }
+    if (signupPwCheck.value) checkPwMatch();
+  });
+
+  function checkPwMatch() {
+    if (signupPwCheck.value !== "" && signupPw.value === signupPwCheck.value) {
+      pwCheckMsg.textContent = "비밀번호가 일치합니다";
+      pwCheckMsg.style.color = "green";
+    } else {
+      pwCheckMsg.textContent = "비밀번호가 일치하지 않습니다";
+      pwCheckMsg.style.color = "red";
+    }
+  }
+  signupPwCheck.addEventListener("input", checkPwMatch);
+
+  // 비밀번호 눈 아이콘 토글 (회원가입 / 로그인 모두)
+  toggleSignupPw.addEventListener("click", function () {
+    var showing = signupPw.type === "text";
+    signupPw.type = showing ? "password" : "text";
+    signupPwCheck.type = showing ? "password" : "text";
+    toggleSignupPw.textContent = showing ? "👁" : "🙈";
+  });
+
+  toggleLoginPw.addEventListener("click", function () {
+    var loginPwInput = document.getElementById("loginPw");
+    var showing = loginPwInput.type === "text";
+    loginPwInput.type = showing ? "password" : "text";
+    toggleLoginPw.textContent = showing ? "👁" : "🙈";
+  });
+
+  function setLoggedInUI(userId) {
+    state.isLoggedIn = true;
+    state.nickname = userId;
+    loginBtn.textContent = userId + "님";
+    writeReviewBtn.disabled = false;
+    writeReviewBtn.textContent = "후기 작성하기";
+  }
+
+  function setLoggedOutUI() {
+    state.isLoggedIn = false;
+    state.nickname = "";
+    loginBtn.textContent = "로그인";
+    writeReviewBtn.disabled = true;
+    writeReviewBtn.textContent = "로그인 후 후기 작성";
+  }
+
+  // 회원가입 제출
+  signupForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (!idChecked) {
+      idMsg.textContent = "아이디 중복확인을 먼저 진행해주세요";
+      idMsg.style.color = "red";
+      return;
+    }
+    if (!emailRegex.test(signupEmail.value)) { signupEmail.focus(); return; }
+    if (signupPhone.value.length !== 11) { signupPhone.focus(); return; }
+    if (!pwRegex.test(signupPw.value)) { signupPw.focus(); return; }
+    if (signupPw.value !== signupPwCheck.value) { signupPwCheck.focus(); return; }
+
+    var users = getUsers();
+    var newId = signupId.value.trim();
+    users.push({
+      id: newId,
+      email: signupEmail.value.trim(),
+      phone: signupPhone.value,
+      password: signupPw.value
+    });
+    saveUsers(users);
+
+    try { window.localStorage.setItem(CURRENT_USER_KEY, newId); } catch (e) {}
+
+    alert("회원가입을 환영합니다!");
+
+    setLoggedInUI(newId);
+    closeModal("signupModal");
+    signupForm.reset();
+    idChecked = false;
+    idMsg.textContent = "";
+    emailMsg.textContent = "";
+    phoneMsg.textContent = "";
+    pwMsg.textContent = "";
+    pwCheckMsg.textContent = "";
+  });
+
+  // 로그인 제출
+  loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var id = document.getElementById("loginId").value.trim();
+    var pw = document.getElementById("loginPw").value;
+    var users = getUsers();
+    var user = users.find(function (u) { return u.id === id && u.password === pw; });
+
+    if (!user) {
+      alert("아이디 또는 비밀번호가 올바르지 않습니다");
+      return;
+    }
+
+    try { window.localStorage.setItem(CURRENT_USER_KEY, user.id); } catch (e) {}
+
+    alert(user.id + "님 환영합니다.");
+
+    setLoggedInUI(user.id);
+    closeModal("loginModal");
+    loginForm.reset();
+  });
+
+  // 헤더의 로그인 버튼: 로그인 상태면 클릭 시 로그아웃, 아니면 로그인 모달 오픈
+  loginBtn.addEventListener("click", function () {
+    if (state.isLoggedIn) {
+      try { window.localStorage.removeItem(CURRENT_USER_KEY); } catch (e) {}
+      setLoggedOutUI();
+    } else {
+      openModal("loginModal");
+    }
+  });
+
+  // 새로고침해도 로그인 상태 유지
+  (function restoreSession() {
+    var currentUser;
+    try { currentUser = window.localStorage.getItem(CURRENT_USER_KEY); } catch (e) { currentUser = null; }
+    if (currentUser) setLoggedInUI(currentUser);
+  })();
+
+  /* =====================================================
+     후기 작성
+  ===================================================== */
+  writeReviewBtn.addEventListener("click", function () {
+    if (!state.isLoggedIn) return;
+    var select = document.getElementById("reviewCert");
+    select.innerHTML = certData.map(function (c) { return '<option value="' + c.name + '">' + c.name + "</option>"; }).join("");
+    openModal("reviewModal");
+  });
+
+  document.getElementById("reviewForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var certName = document.getElementById("reviewCert").value;
+    var title = document.getElementById("reviewTitleInput").value.trim();
+    var period = document.getElementById("reviewPeriod").value.trim();
+    var comment = document.getElementById("reviewComment").value.trim();
+    var tags = Array.prototype.slice.call(document.querySelectorAll('input[name="reviewTag"]:checked'))
+      .map(function (cb) { return cb.value; });
+
+    if (!title || !period || !comment) return;
+
+    reviewData.unshift({
+      id: state.nextReviewId++,
+      title: title + " (" + certName + ")",
+      author: state.nickname || "익명",
+      period: period,
+      comment: comment,
+      likes: 0,
+      liked: false,
+      tags: tags.length ? tags : ["독학"]
+    });
+
+    state.tag = "전체";
+    document.querySelectorAll("#tagFilter .filter-btn").forEach(function (b) { b.classList.remove("active"); });
+    document.querySelector('#tagFilter .filter-btn[data-tag="전체"]').classList.add("active");
+
+    renderReviewGrid();
+    closeModal("reviewModal");
+    e.target.reset();
+  });
+
+  /* =====================================================
+     초기 렌더링
+  ===================================================== */
+  renderBookmarkCount();
+  renderCalendar();
+  renderExamList();
+  renderCertGrid();
+  renderReviewGrid();
+})();
+</script>
+</body>
+</html>
